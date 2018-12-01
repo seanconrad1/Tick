@@ -22,31 +22,34 @@ def get_recommendations()
   end
 
   response = JSON.parse(response.body)
-
   like_people(response)
 end
 
 def like_people(response)
-  response.values[1].map { |e|
-      uri = URI.parse("https://api.gotinder.com/like/#{e['_id']}")
-      request = Net::HTTP::Get.new(uri)
-      request["X-Auth-Token"] = ENV['token']
+  if response['message']
+    p 'No users left to like'
+  else
+    response.values[1].map { |e|
+        uri = URI.parse("https://api.gotinder.com/like/#{e['_id']}")
+        request = Net::HTTP::Get.new(uri)
+        request["X-Auth-Token"] = ENV['token']
 
-      req_options = {
-        use_ssl: uri.scheme == "https",
-      }
+        req_options = {
+          use_ssl: uri.scheme == "https",
+        }
 
-      response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-        http.request(request)
-      end
+        response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+          http.request(request)
+        end
 
-      response = JSON.parse(response.body)
-      p e['name']
-  }
+        response = JSON.parse(response.body)
+        p e['name']
+    }
 
-  sleep(5)
+    sleep(5)
 
-  get_recommendations()
+    get_recommendations()
+  end
 end
 
 get_recommendations()
