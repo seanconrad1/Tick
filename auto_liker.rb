@@ -27,7 +27,8 @@ end
 
 def like_people(response)
   if response['message']
-    p 'No users left to like'
+    sleep(300)
+    get_recommendations()
   else
     response.values[1].map { |e|
         uri = URI.parse("https://api.gotinder.com/like/#{e['_id']}")
