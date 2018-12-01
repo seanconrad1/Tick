@@ -1,7 +1,6 @@
 require 'net/http'
 require 'uri'
 require 'json'
-require 'pry'
 require './env'
 
 def get_recommendations()
@@ -43,7 +42,7 @@ def like_people(response)
           http.request(request)
         end
 
-        response = JSON.parse(response.body)
+        # response = JSON.parse(response.body)
         p e['name']
     }
 
