@@ -26,6 +26,16 @@ end
 
 def like_people(response)
   if response['message']
+    p 'No matches, waiting for 5 minutes'
+    sleep(300)
+    get_recommendations()
+  elsif response['error']
+    puts "Error status: #{response['status']}"
+    if response['status'] == 401
+      p 'Authentication error'
+    end
+
+    p 'Trying again in 5 minutes'
     sleep(300)
     get_recommendations()
   else
@@ -45,9 +55,7 @@ def like_people(response)
         # response = JSON.parse(response.body)
         p e['name']
     }
-
     sleep(5)
-
     get_recommendations()
   end
 end
