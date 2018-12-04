@@ -52,7 +52,6 @@ def like_people(response)
           http.request(request)
         end
 
-        # response = JSON.parse(response.body)
         p e['name']
     }
     sleep(5)
